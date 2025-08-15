@@ -8,4 +8,4 @@ This repository contains multiple microservices managed in a monorepo:
 
 ## Architecture
 
-![Architecture Diagram](./Ecommerce-architecture.png)
+![Architecture Diagram](./Ecommerce-Architecture.png)
