@@ -1,0 +1,35 @@
+package com.microservices.OrderService.services.impl;
+
+import com.microservices.OrderService.dto.OrderDto;
+import com.microservices.OrderService.entities.Order;
+import com.microservices.OrderService.repositories.OrderRepository;
+import com.microservices.OrderService.services.OrderService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+@RequiredArgsConstructor
+@Slf4j
+public class OrderServiceImpl implements OrderService {
+
+    private final OrderRepository orderRepository;
+    private final ModelMapper modelMapper;
+
+    @Override
+    public List<OrderDto> getAllOrders() {
+        log.info("Fetching All Orders");
+        List<Order> orders = orderRepository.findAll();
+        return orders.stream().map(order -> modelMapper.map(order, OrderDto.class)).toList();
+    }
+
+    @Override
+    public OrderDto getOrderById(Long id) {
+        log.info("Fetching order with Id : {}", id);
+        Order order = orderRepository.findById(id).orElseThrow(() -> new RuntimeException("Order Not Found"));
+        return modelMapper.map(order, OrderDto.class);
+    }
+}
