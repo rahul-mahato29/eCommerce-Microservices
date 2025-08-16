@@ -22,6 +22,11 @@ public class OrderController {
 
     private final OrderService orderService;
 
+    @GetMapping(path = "/helloOrder")
+    public String helloOrders() {
+        return "Hello from order service";
+    }
+
     @GetMapping
     public ResponseEntity<List<OrderDto>> getAllOrders() {
         log.info("Fetching all orders via controller");
