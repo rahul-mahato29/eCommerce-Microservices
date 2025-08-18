@@ -1,5 +1,7 @@
 package com.microservices.InventoryService.services.impl;
 
+import com.microservices.InventoryService.dto.OrderDto;
+import com.microservices.InventoryService.dto.OrderItemDto;
 import com.microservices.InventoryService.dto.ProductDto;
 import com.microservices.InventoryService.entities.Product;
 import com.microservices.InventoryService.repositories.ProductRepository;
@@ -35,5 +37,27 @@ public class ProductServiceImpl implements ProductService {
         Optional<Product> inventory = productRepository.findById(id);
         return inventory.map(item -> modelMapper.map(item, ProductDto.class))
                 .orElseThrow(() -> new RuntimeException("Inventory Not Found"));
+    }
+
+    @Override
+    public Double reduceStocks(OrderDto orderDto) {
+        log.info("Reducing the stocks");
+        Double totalPrice = 0.0;
+        for (OrderItemDto orderItemDto : orderDto.getItems()) {
+            Long productId = orderItemDto.getProductId();
+            Integer quantity = orderItemDto.getQuantity();
+
+            Product product = productRepository.findById(productId).orElseThrow(() ->
+                    new RuntimeException("Product not found with id : "+productId));
+
+            if(product.getStock() < quantity) {
+                throw new RuntimeException("Product cannot be fulfilled for given quantity");
+            }
+
+            product.setStock(product.getStock() - quantity);
+            productRepository.save(product);
+            totalPrice += quantity * product.getPrice();
+        }
+        return totalPrice;
     }
 }

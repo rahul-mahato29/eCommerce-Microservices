@@ -10,7 +10,7 @@
         <module name="DiscoveryService" />
         <module name="API-Gateway" />
       </profile>
-      <profile name="Annotation profile for InventoryService" enabled="true">
+      <profile name="Annotation profile for OrderService" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />

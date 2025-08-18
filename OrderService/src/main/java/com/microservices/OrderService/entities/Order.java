@@ -2,11 +2,13 @@ package com.microservices.OrderService.entities;
 
 import com.microservices.OrderService.entities.enums.OrderStatus;
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.util.List;
 
 @Entity
 @Table(name = "orders")
+@Data
 public class Order {
 
     @Id

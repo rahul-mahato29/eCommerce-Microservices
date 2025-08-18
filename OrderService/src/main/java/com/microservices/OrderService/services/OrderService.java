@@ -10,4 +10,6 @@ public interface OrderService {
     List<OrderDto> getAllOrders();
 
     OrderDto getOrderById(java.lang.Long id);
+
+    OrderDto createOrder(OrderDto orderDto);
 }

@@ -1,4 +1,4 @@
-package com.microservices.InventoryService.controllers;
+package com.microservices.InventoryService.dto;
 
 import lombok.Data;
 

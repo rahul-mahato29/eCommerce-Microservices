@@ -2,14 +2,10 @@ package com.microservices.OrderService.controllers;
 
 import com.microservices.OrderService.dto.OrderDto;
 import com.microservices.OrderService.services.OrderService;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -25,6 +21,12 @@ public class OrderController {
     @GetMapping(path = "/helloOrder")
     public String helloOrders() {
         return "Hello from order service";
+    }
+
+    @PostMapping(path = "/createOrder")
+    public ResponseEntity<OrderDto> createOrder(@RequestBody OrderDto orderDto) {
+        OrderDto orderDto1 = orderService.createOrder(orderDto);
+        return ResponseEntity.ok(orderDto1);
     }
 
     @GetMapping
