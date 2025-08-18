@@ -1,5 +1,6 @@
 package com.microservices.InventoryService.controllers;
 
+import com.microservices.InventoryService.clients.OrderFeignClient;
 import com.microservices.InventoryService.dto.ProductDto;
 import com.microservices.InventoryService.services.ProductService;
 import jakarta.persistence.Table;
@@ -25,14 +26,18 @@ public class ProductController {
     private final DiscoveryClient discoveryClient;
     private final RestClient restClient;
 
+    private final OrderFeignClient orderFeignClient;
+
     @GetMapping(path = "/fetchOrders")
     public String fetchFromOrderService() {
-        ServiceInstance orderService =  discoveryClient.getInstances("orderService").getFirst();
+//        ServiceInstance orderService =  discoveryClient.getInstances("orderService").getFirst();
 
-        return restClient.get()
-                .uri(orderService.getUri()+"/orders/core/helloOrder")
-                .retrieve()
-                .body(String.class);
+//        return restClient.get()
+//                .uri(orderService.getUri()+"/orders/core/helloOrder")
+//                .retrieve()
+//                .body(String.class);
+
+        return orderFeignClient.hellOrder();
     }
 
     @GetMapping
