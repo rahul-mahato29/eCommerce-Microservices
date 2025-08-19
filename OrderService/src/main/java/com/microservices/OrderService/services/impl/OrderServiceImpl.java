@@ -7,6 +7,7 @@ import com.microservices.OrderService.entities.OrderItem;
 import com.microservices.OrderService.entities.enums.OrderStatus;
 import com.microservices.OrderService.repositories.OrderRepository;
 import com.microservices.OrderService.services.OrderService;
+import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import io.github.resilience4j.retry.annotation.Retry;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -40,6 +41,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Retry(name = "inventoryRetry", fallbackMethod = "createOrderFallback")
+    @RateLimiter(name = "inventoryRateLimiter", fallbackMethod = "createOrderFallback")
     public OrderDto createOrder(OrderDto orderDto) {
         System.out.println("checking");
         Double totalPrice = inventoryFeignClient.reduceStocks(orderDto);
