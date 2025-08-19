@@ -2,6 +2,7 @@
 
 This repository contains multiple microservices managed in a monorepo:
 
+- API Gateway
 - DiscoveryService (Eureka Server)
 - InventoryService (Eureka Client)
 - OrderService (Eureka Client)

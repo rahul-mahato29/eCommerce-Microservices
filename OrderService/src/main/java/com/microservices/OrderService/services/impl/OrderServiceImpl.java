@@ -7,6 +7,7 @@ import com.microservices.OrderService.entities.OrderItem;
 import com.microservices.OrderService.entities.enums.OrderStatus;
 import com.microservices.OrderService.repositories.OrderRepository;
 import com.microservices.OrderService.services.OrderService;
+import io.github.resilience4j.retry.annotation.Retry;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -38,6 +39,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @Retry(name = "inventoryRetry", fallbackMethod = "createOrderFallback")
     public OrderDto createOrder(OrderDto orderDto) {
         System.out.println("checking");
         Double totalPrice = inventoryFeignClient.reduceStocks(orderDto);
@@ -53,4 +55,10 @@ public class OrderServiceImpl implements OrderService {
 
         return modelMapper.map(savedOrder, OrderDto.class);
     }
+
+    public OrderDto createOrderFallback(OrderDto orderDto, Throwable throwable) {
+        log.error("Fallback occurred due to : {}", throwable.getMessage());
+        return new OrderDto();
+    }
+
 }
