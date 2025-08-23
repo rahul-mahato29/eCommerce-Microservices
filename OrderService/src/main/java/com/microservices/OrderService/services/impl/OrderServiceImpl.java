@@ -60,6 +60,12 @@ public class OrderServiceImpl implements OrderService {
         return modelMapper.map(savedOrder, OrderDto.class);
     }
 
+    @Override
+    public OrderDto cancelOrderById(Long id) {
+        //todo
+        return null;
+    }
+
     public OrderDto createOrderFallback(OrderDto orderDto, Throwable throwable) {
         log.error("Fallback occurred due to : {}", throwable.getMessage());
         return new OrderDto();

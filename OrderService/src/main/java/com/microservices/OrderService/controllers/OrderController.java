@@ -42,4 +42,11 @@ public class OrderController {
         OrderDto order = orderService.getOrderById(id);
         return ResponseEntity.ok(order);
     }
+
+    @PostMapping(path = "/{orderId}/cancel")
+    public String cancelOrderById(@PathVariable(name = "orderId") Long id) {
+        log.info("Cancelling Order with id : {}", id);
+        OrderDto order = orderService.cancelOrderById(id);
+        return "Order Cancelled Successfully!!";
+    }
 }

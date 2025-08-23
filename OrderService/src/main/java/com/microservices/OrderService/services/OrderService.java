@@ -12,4 +12,6 @@ public interface OrderService {
     OrderDto getOrderById(java.lang.Long id);
 
     OrderDto createOrder(OrderDto orderDto);
+
+    OrderDto cancelOrderById(Long id);
 }
